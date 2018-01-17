@@ -2,6 +2,7 @@
 from pandas import read_csv, Series  # , DataFrame
 
 
+# todo: choose list
 # todo: log file
 class Engine:
 
