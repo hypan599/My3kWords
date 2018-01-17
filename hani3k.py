@@ -14,7 +14,7 @@ class Engine:
         self.help = "supported commands: help, all"
 
     @staticmethod
-    def format_display(word, flag="word", box_wid=40):  # todo: what about the flag?
+    def format_display(word, flag="word", box_wid=80):  # todo: what about the flag?
         word = word.split(";")
         print("+" + flag.center((box_wid - 1), "-") + "+")
         if len(word) == 1:
