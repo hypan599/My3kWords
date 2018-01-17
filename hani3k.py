@@ -2,7 +2,9 @@
 from pandas import read_csv, Series  # , DataFrame
 
 
-# todo: hhhhhh
+# todo: load file; add user defined dict anytime; export dict
+# todo: add meaning to a word
+# todo: 检测， 近义词表
 # todo: choose list
 # todo: log file
 class Engine:
@@ -35,8 +37,13 @@ class Engine:
             print(self.help)
         elif _command == "all":
             self.start_recite()
+        elif _command == "list":
+            self.start_from_list(1, 1, 2, 2)
         else:
-            print("uncognized command, please type again!")
+            print("unrecognized command, please type again!")
+
+    def start_from_list(self, start_list, start_unit, end_list, end_unit):
+        print("start from list")
 
     def start_recite(self, _range="all"):
         for key in self.words.index:
