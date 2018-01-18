@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pandas import read_csv, Series  # , DataFrame
+import json
 
 
 # todo: load file;
@@ -8,35 +9,47 @@ from pandas import read_csv, Series  # , DataFrame
 # todo: add meaning to a word
 # todo: 检测， 近义词表
 # todo: choose list
-# todo: 显示第几个单词
-# todo: 单词乱序
-# todo：创建个人学习日记，每个单词学习过几遍，在什么时候学的
-# todo：提供学习表格
-# todo: 分类选择，从未学习过的单词中选择单词
-# todo：提供用户+密码的形式，访问学习记录，创建对应的 用户-密码-词书-学习记录
 # todo: log file
 class Engine:
 
-    def __init__(self, _file_name="3000_new.csv"):
-        # self.words.columns: ['repeat', 'word', 'meaning']
+    def __init__(self, _file_name="3000_new.csv", _config_file_name="config.json"):
+        # init properties
         self.quit = False
-        self.words = read_csv(_file_name, sep="*", index_col=0)
-        # print(self.words.columns)
-        self.word2id = Series(self.words.index, index=self.words.word)
+        self.mode = "Learn"
         self.help = "supported commands: help, all"
+        # load words # words.columns: ['repeat', 'word', 'meaning']
+        self.words = read_csv(_file_name, sep="*", index_col=0)
+        self.word2id = Series(self.words.index, index=self.words.word)
+
+        # load config file
+        self.config_file_name = _config_file_name
+        with open(self.config_file_name, "r") as f:
+            self.config = json.load(f)
+
+
 
     @staticmethod
     def format_display(word, flag="word", box_wid=80):  # todo: what about the flag?
+        def my_center(s, wid=box_wid, char=" "):
+            length = len(s)
+            num_chn = 0
+            for i in s:
+                if '\u4e00' <= i <= '\u9fff':
+                    num_chn += 1
+            left_space = (wid - length - num_chn) // 2
+            right_space = wid - length - num_chn - left_space
+            return char * left_space + s + right_space * char
+
         word = word.split(";")
-        print("+" + flag.center((box_wid - 1), "-") + "+")
+        print("+" + my_center(flag, char="-") + "+")
         if len(word) == 1:
-            print("|" + " " * (box_wid - 1) + "|")
-            print("|" + word[0].center((box_wid - 1)) + "|")
-            print("|" + " " * (box_wid - 1) + "|")
+            print("|" + " " * box_wid + "|")
+            print("|" + my_center(word[0]) + "|")
+            print("|" + " " * box_wid + "|")
         elif len(word) >= 2:
             for i in range(len(word)):
-                print("|" + word[i].center((box_wid - 1)) + "|")
-        print("+" + "-" * (box_wid - 1) + "+")
+                print("|" + my_center(word[i]) + "|")
+        print("+" + "-" * box_wid + "+")
 
     def run(self, _command):
         if _command == "q":
@@ -47,7 +60,7 @@ class Engine:
             self.start_recite()
         elif _command == "list":
             word_range = self.start_from_list()
-            self.start_recite(_range=word_range)
+            self.start_recite(word_range)
         else:
             print("unrecognized command, please type again!")
 
@@ -73,26 +86,28 @@ class Engine:
 
         for key in words_range:
             self.format_display(self.words.loc[key, "word"])
-            tmp = input("press enter to see meaning.$>>")
+            tmp = input("Press ENTER to continue. >>")
             if tmp == "q":
                 self.quit = True
                 break
             # print("meaning:\t" + self.words[key])
             self.format_display(self.words.loc[key, "meaning"], flag="meaning")
-            tmp = input("print enter to continue")
+            tmp = input("Press ENTER to continue. >>")
             if tmp == "q":
                 self.quit = True
                 break
 
     def save_and_quit(self, _file_name="3000_new.csv"):
         self.words.to_csv(_file_name, sep="*", index=True, header=True)
+        with open(self.config_file_name, "w") as f:
+            json.dump(self.config, f)
         print("save finish")
 
 
 if __name__ == "__main__":
     engine = Engine()
     while not engine.quit:
-        command = input("type in your command.$>>")
+        command = input("Enter command or type h to see help. >>")
         engine.run(command)
     else:
         engine.save_and_quit()
