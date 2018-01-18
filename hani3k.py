@@ -28,7 +28,7 @@ class Engine:
         """
         self.file_name = _file_name
         # load config file
-        with open(self.file_name, "r") as f:
+        with open(self.file_name, "r", encoding="utf8") as f:
             self.config = json.loads(f.readline().strip())
 
         # load words # words.columns: repeat, star, modify_flag, word, meaning, modified, remarks
@@ -207,7 +207,7 @@ class Engine:
             print("congratulations! you finished those words!")
 
     def save_and_quit(self):
-        with open(self.file_name, "w") as f:
+        with open(self.file_name, "w", encoding="utf8") as f:
             f.write(json.dumps(self.config))
             f.write("\n\n")
         self.words.to_csv(self.file_name, mode="a", sep="*", index=True, header=True)
