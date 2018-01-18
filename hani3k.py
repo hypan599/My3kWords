@@ -18,9 +18,13 @@ class Engine:
         self.quit = False
         self.mode = "Review"
         self.help = """examples commands
-        help            show help message
-        l 1 2           review list 1,2
-        chmod [mode]    change mode to learn
+        q               quit
+        h               show help message
+        a               start with all words
+        (l)ist 1 2      start list 1,2
+        (r)ange         start with a chosen range
+        chmod [mode]    change mode. supporting modes: Learn, Review, Game, Debug
+        random 0        enable or disable random shuffle, please give a 0 or 1
         """
         self.file_name = _file_name
         # load config file
@@ -78,7 +82,7 @@ class Engine:
         elif self.mode == "Game":
             return "MODE: Game. DO NOT play game while learning. haha."
         elif self.mode == "Debug":
-            return "Welcome to debug mode, Good Luck."
+            return "MODE: Debug. Type D to start debug."
         else:
             return "Type in your command."
 
@@ -94,7 +98,7 @@ class Engine:
             elif _command in ["r", "range"]:
                 word_range = self.ask_for_range()
                 self.review(_range=word_range)
-            elif _command == "D":
+            elif _command == "D" and self.mode == "Debug":
                 self.debug()
             else:
                 print("unrecognized command, please type in again!")
@@ -119,7 +123,7 @@ class Engine:
 
     def debug(self):
         while True:
-            _cmd = input("You are in debug mode, type in a command >>")
+            _cmd = input("You are debugging, type in a command >>")
             if _cmd == "show_config":
                 print(self.config)
             elif _cmd == "add_config":
