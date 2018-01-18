@@ -16,8 +16,12 @@ class Engine:
     def __init__(self, _file_name="3000_new.csv"):
         # init properties
         self.quit = False
-        self.mode = "Learn"
-        self.help = "supported commands: help, chmod"
+        self.mode = "Review"
+        self.help = """examples commands
+        help            show help message
+        l 1 2           review list 1,2
+        chmod [mode]    change mode to learn
+        """
         self.file_name = _file_name
         # load config file
         with open(self.file_name, "r") as f:
@@ -104,8 +108,14 @@ class Engine:
             elif cmd in ["l", "list"]:
                 lists = [int(i) for i in content.split(" ")]
                 self.review(_lists=lists)
+            elif cmd == "random":
+                try:
+                    self.config["random_shuffle"] = bool(int(content))
+                    print("random shuffle is %s" % "enabled" if self.config["random_shuffle"] else "disabled")
+                except ValueError:
+                    print("invalid. please type in again")
             else:
-                print("unrecognized command, please type again!")
+                print("unrecognized command, please type in again!")
 
     def debug(self):
         while True:
@@ -115,7 +125,7 @@ class Engine:
             elif _cmd == "add_config":
                 _key = input("type in a config key: >>")
                 _value = input("type in a config value: >>")
-                if input("add %s : %s to config. continue? y/[n]") == "y":
+                if input("add %s : %s to config. continue? y/[n]" % (_key, _value)) == "y":
                     self.config[_key] = _value  # todo: ``how to use
             elif _cmd == "quit":
                 print("quit debug mode")
@@ -143,25 +153,7 @@ class Engine:
                     self.config["last_loc"] = i
                     yield i, total_num - i
 
-        for key, left in iter_words():
-            self.format_display(self.words.loc[key, "word"], left)
-            _quit = False
-            while not _quit:
-                cmd = input("Press ENTER to continue. >>")
-                if cmd == "q":
-                    self.quit = True
-                    _quit = True
-                elif cmd == "s":
-                    print("mmmmm")
-                    _quit = True
-                elif cmd == "h":
-                    print("s: star, h: show this help")
-                elif not cmd:
-                    _quit = True
-            if self.quit:
-                break
-            # print("meaning:\t" + self.words[key])
-            self.format_display(self.words.loc[key, "meaning"], left, flag="meaning")
+        def review_run():
             _quit = False
             while not _quit:
                 cmd = input("Press ENTER to continue. >>")
@@ -195,6 +187,15 @@ class Engine:
                     print("m: modify, s: star, h: show this help")
                 elif not cmd:
                     _quit = True
+
+        for key, left in iter_words():
+            self.format_display(self.words.loc[key, "word"], left)
+            review_run()
+            if self.quit:
+                break
+            # print("meaning:\t" + self.words[key])
+            self.format_display(self.words.loc[key, "meaning"], left, flag="meaning")
+            review_run()
             if self.quit:
                 break
 
