@@ -34,6 +34,7 @@ class Engine:
         # load words # words.columns: repeat, star, modify_flag, word, meaning, modified, remarks
 
         self.words = read_csv(self.file_name, sep="*", index_col=0, skiprows=2, header=0)
+        self.words.fillna("", inplace=True)
         self.word2id = Series(self.words.index, index=self.words[["word"]])
 
     @staticmethod
@@ -50,29 +51,6 @@ class Engine:
         _word_range = (word_start - 1, word_end)
         print("start from word", word_start, 'to word', word_end)
         return _word_range
-
-    @staticmethod
-    def format_display(word, left_n, flag="word", box_wid=80):  # todo: what about the flag?
-        def my_center(s, wid=box_wid, char=" "):
-            length = len(s)
-            num_chn = 0
-            for i in s:
-                if '\u4e00' <= i <= '\u9fff':
-                    num_chn += 1
-            left_space = (wid - length - num_chn) // 2
-            right_space = wid - length - num_chn - left_space
-            return char * left_space + s + right_space * char
-
-        word = word.split(";")
-        print("+" + my_center(flag, char="-") + "+")
-        if len(word) == 1:
-            print("|" + " " * box_wid + "|")
-            print("|" + my_center(word[0]) + "|")
-            print("|" + " " * box_wid + "|")
-        elif len(word) >= 2:
-            for i in range(len(word)):
-                print("|" + my_center(word[i]) + "|")
-        print("+" + "-" * box_wid + "+")
 
     def show_prompt(self):
         if self.mode == "Learn":
@@ -134,6 +112,12 @@ class Engine:
             elif _cmd == "quit":
                 print("quit debug mode")
                 break
+            elif _cmd == "help":
+                print("""supporting commands
+                show_config
+                add_config
+                quit
+                help""")
 
     def review(self, _range=None, _all=False, _lists=None, _hist=None):
         def iter_words():
@@ -151,11 +135,12 @@ class Engine:
                 total_num += _range[1] - _range[0]
             self.config["last_lists"] = iter_lists
             self.config["last_total"] = total_num
-
+            count = 0
             for s, e in iter_lists:
                 for i in range(s, e):
+                    count += 1
                     self.config["last_loc"] = i
-                    yield i, total_num - i
+                    yield i, count, total_num - count
 
         def review_run():
             _quit = False
@@ -192,13 +177,13 @@ class Engine:
                 elif not cmd:
                     _quit = True
 
-        for key, left in iter_words():
-            self.format_display(self.words.loc[key, "word"], left)
+        for key, n, left in iter_words():
+            self.format_display(key, n, left, label="word")
             review_run()
             if self.quit:
                 break
             # print("meaning:\t" + self.words[key])
-            self.format_display(self.words.loc[key, "meaning"], left, flag="meaning")
+            self.format_display(key, n, left, label="meaning")
             review_run()
             if self.quit:
                 break
@@ -212,6 +197,53 @@ class Engine:
             f.write("\n\n")
         self.words.to_csv(self.file_name, mode="a", sep="*", index=True, header=True)
         print("Save finish.\nBye Bye")
+
+    def format_display(self, key, n, left_n, label="word", box_wid=80):  # todo: what about the flag?
+        def my_center(s, wid=box_wid, char=" "):
+            length = len(s)
+            num_chn = 0
+            for i in s:
+                if '\u4e00' <= i <= '\u9fff':
+                    num_chn += 1
+            left_space = (wid - length - num_chn) // 2
+            right_space = wid - length - num_chn - left_space
+            return char * left_space + s + right_space * char
+
+        box_wid = box_wid // 2 * 2
+        if label == "word":
+            print("+" + my_center(self.mode, char="-") + "+")
+            print("|" + " " * box_wid + "|")
+            print("|" + " " * box_wid + "|")
+            print("|" + " " * box_wid + "|")
+            print("|" + " " * box_wid + "|")
+            print("|" + my_center(self.words.loc[key, label]) + "|")
+            print("|" + " " * box_wid + "|")
+            print("|" + ("L%dU%d" % (key // 100 + 1, key // 10 % 10 + 1)).ljust(box_wid // 2) + (
+                    "star: %s" % self.words.loc[key, "star"]).rjust(box_wid // 2) + "|")
+            print("|" + ("remembered: %d" % n).ljust(box_wid // 2) + (
+                    "modified: %s" % self.words.loc[key, "modify_flag"]).rjust(box_wid // 2) + "|")
+            print("|" + ("left: %d" % left_n).ljust(box_wid // 2) + (
+                    "remarks: %s" % bool(self.words.loc[key, "remarks"])).rjust(box_wid // 2) + "|")
+            print("+" + "-" * box_wid + "+")
+        elif label == "meaning":
+            if self.words.loc[key, "modified"]:
+                meaning = self.words.loc[key, "modified"]
+            else:
+                meaning = self.words.loc[key, label]
+            meaning = meaning.split(";")
+            print("+" + my_center("释义", char="-") + "+")
+            print("|" + " " * box_wid + "|")
+            print("|" + " " * box_wid + "|")
+            for i in range(len(meaning)):
+                print("|" + my_center(meaning[i]) + "|")
+            print("|" + " " * box_wid + "|")
+            print("|" + ("L%dU%d" % (key // 100 + 1, key // 10 % 10 + 1)).ljust(box_wid // 2) + (
+                    "star: %s" % self.words.loc[key, "star"]).rjust(box_wid // 2) + "|")
+            print("|" + ("remembered: %d" % n).ljust(box_wid // 2) + (
+                    "modified: %s" % self.words.loc[key, "modify_flag"]).rjust(box_wid // 2) + "|")
+            print("|" + ("left: %d" % left_n).ljust(box_wid // 2) + (
+                    "remarks: %s" % bool(self.words.loc[key, "remarks"])).rjust(box_wid // 2) + "|")
+            print("+" + "-" * box_wid + "+")
 
 
 if __name__ == "__main__":
