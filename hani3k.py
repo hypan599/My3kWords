@@ -29,7 +29,7 @@ class Engine:
         self.file_name = _file_name
         # load config file
         with open(self.file_name, "r") as f:
-            self.config = json.loads(f.readline())
+            self.config = json.loads(f.readline().strip())
 
         # load words # words.columns: repeat, star, modify_flag, word, meaning, modified, remarks
 
