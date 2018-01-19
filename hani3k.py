@@ -13,7 +13,7 @@ import json
 
 class Engine:
 
-    def __init__(self, _file_name="3000_new.csv"):
+    def __init__(self, _file_name="default_3000.csv"):
         # init properties
         self.quit = False
         self.mode = "Review"
@@ -33,7 +33,7 @@ class Engine:
 
         # load words # words.columns: repeat, star, modify_flag, word, meaning, modified, remarks
 
-        self.words = read_csv(self.file_name, sep="*", index_col=0, skiprows=2, header=0)
+        self.words = read_csv(self.file_name, sep="*", index_col=0, header=0)
         self.words.fillna("", inplace=True)
         self.word2id = Series(self.words.index, index=self.words[["word"]])
 
