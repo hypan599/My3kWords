@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>hanihani</class>
+ <widget class="QWidget" name="hanihani">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>632</width>
+    <height>405</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>hani</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>618</width>
+     <height>398</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+    <property name="topMargin">
+     <number>5</number>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,5">
+      <item>
+       <widget class="QTextBrowser" name="info_browser"/>
+      </item>
+      <item>
+       <widget class="QTextBrowser" name="word_browser">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QTextBrowser" name="meaning_browser"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>show</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="next_button">
+          <property name="text">
+           <string>next</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="star_button">
+          <property name="text">
+           <string>star</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>hanihani</receiver>
+   <slot>show_meaning()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>413</x>
+     <y>395</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>387</x>
+     <y>469</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>next_button</sender>
+   <signal>clicked()</signal>
+   <receiver>hanihani</receiver>
+   <slot>next_word()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>488</x>
+     <y>379</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>487</x>
+     <y>481</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>star_button</sender>
+   <signal>clicked()</signal>
+   <receiver>hanihani</receiver>
+   <slot>star_word()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>573</x>
+     <y>386</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>565</x>
+     <y>441</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>show_meaning()</slot>
+  <slot>next_word()</slot>
+  <slot>star_word()</slot>
+ </slots>
+</ui>
