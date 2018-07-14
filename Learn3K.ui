@@ -1,81 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>hanihani</class>
- <widget class="QWidget" name="hanihani">
+ <class>Learn</class>
+ <widget class="QWidget" name="Learn">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>737</width>
-    <height>398</height>
+    <width>553</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>hani</string>
+   <string>LearnWords</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>731</width>
-     <height>391</height>
+     <x>11</x>
+     <y>10</y>
+     <width>526</width>
+     <height>381</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="9,1">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="5,1">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
       <item>
        <widget class="QTextBrowser" name="word_browser">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
         <property name="font">
          <font>
-          <pointsize>24</pointsize>
+          <pointsize>20</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QTextBrowser" name="meaning_browser">
-        <property name="font">
-         <font>
-          <pointsize>24</pointsize>
-         </font>
-        </property>
-       </widget>
+       <widget class="QTextBrowser" name="meaning_browser"/>
       </item>
      </layout>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMinimumSize</enum>
-      </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
-        <item>
-         <widget class="QPushButton" name="show_button">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item alignment="Qt::AlignTop">
+         <widget class="QPushButton" name="pushButton">
           <property name="text">
-           <string>show</string>
+           <string>star</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="next_button">
+        <item alignment="Qt::AlignTop">
+         <widget class="QPushButton" name="pushButton_2">
           <property name="text">
            <string>next</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="star_button">
+        <item alignment="Qt::AlignTop">
+         <widget class="QPushButton" name="pushButton_3">
           <property name="text">
-           <string>star</string>
+           <string>show</string>
           </property>
          </widget>
         </item>
@@ -92,57 +79,57 @@
  <resources/>
  <connections>
   <connection>
-   <sender>show_button</sender>
+   <sender>pushButton_2</sender>
    <signal>clicked()</signal>
-   <receiver>hanihani</receiver>
-   <slot>show_meaning()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>413</x>
-     <y>395</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>387</x>
-     <y>469</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>next_button</sender>
-   <signal>clicked()</signal>
-   <receiver>hanihani</receiver>
+   <receiver>Learn</receiver>
    <slot>next_word()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>488</x>
-     <y>379</y>
+     <x>117</x>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
-     <x>487</x>
-     <y>481</y>
+     <x>218</x>
+     <y>405</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>star_button</sender>
+   <sender>pushButton_3</sender>
    <signal>clicked()</signal>
-   <receiver>hanihani</receiver>
+   <receiver>Learn</receiver>
+   <slot>show_meaning()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>192</x>
+     <y>334</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>369</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Learn</receiver>
    <slot>star_word()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>573</x>
-     <y>386</y>
+     <x>62</x>
+     <y>332</y>
     </hint>
     <hint type="destinationlabel">
-     <x>565</x>
-     <y>441</y>
+     <x>137</x>
+     <y>422</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>show_meaning()</slot>
   <slot>next_word()</slot>
+  <slot>show_meaning()</slot>
   <slot>star_word()</slot>
  </slots>
 </ui>

@@ -5,15 +5,15 @@ id_all*repeat*star*modify_flag*word*meaning*modified*synonyms*remarks
 3*0*False*False*abate*减轻(程度或者强度):reduce,degree,intensity;减少(数量),降低(价值):reduce,amount,value***
 4*0*False*False*abbreviate*v.缩写,缩短:briefer***
 5*0*False*False*abdicate*v.正式放弃(权力、责任):throne***
-6*0*False*False*aberrant*adj.异常的,非常规的:deviating***
-7*0*False*False*abet*v.帮助,怂恿:assist or support;v.鼓励:encourage***
+6*0*True*False*aberrant*adj.异常的,非常规的:deviating***
+7*0*True*False*abet*v.帮助,怂恿:assist or support;v.鼓励:encourage***
 8*0*False*False*abeyance*n.终止,搁置:inactivity***
 9*0*False*False*abhor*vt.深恶痛绝,极度厌恶:extreme repugnance***
-10*0*False*False*abiding*永久的:enduring***
-11*0*False*False*abject*adj.无精打采的:spiritless;adj.(地位、身份)悲惨、凄凉的:low state;adj.卑微的,讨好的:humble***
+10*0*True*False*abiding*永久的:enduring***
+11*0*True*False*abject*adj.无精打采的:spiritless;adj.(地位、身份)悲惨、凄凉的:low state;adj.卑微的,讨好的:humble***
 12*0*False*False*abjure*v.发誓放弃:rejecting,abandoning;v.抵制避免:resist***
 13*0*False*False*abnegate*否认:deny,renounce;投降,放弃,交出(权力等):surrender,relinquish***
-14*0*False*False*abominate*憎恶:abhor***
+14*0*True*False*abominate*憎恶:abhor***
 15*0*False*False*aboveboard*无欺诈的,光明正大的:free from,deceit or duplicity***
 16*0*False*False*abrade*磨损,精神上的折磨:wear away, by friction***
 17*0*False*False*abreast*并排地:in line;熟知的:knowledge of recent developments***
