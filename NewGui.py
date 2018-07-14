@@ -53,6 +53,11 @@ class LearnWindow(QWidget, Ui_Learn):
         self.meaning_flag = False
 
     def init_display(self):
+        if not self.config["star_only"]:
+            self.curr_dict["words"] = self.config["words"]
+        else:
+            self.curr_dict["words"] = self.config["words"].loc[self.config["words"].star == True]
+            self.curr_dict["words"].index = list(range(self.curr_dict["words"].shape[0]))
         self.info_browser.setPlainText("按next开始")
         self.curr_dict["list"] = self.config["start_list"]
         self.curr_dict["unit"] = self.config["start_unit"]
@@ -73,8 +78,8 @@ class LearnWindow(QWidget, Ui_Learn):
         self.meaning_browser.setText(self.curr_dict["meaning"] if self.meaning_flag else "")
 
     def finish(self):
-        self.info_browser.setText("congratulations! this window will close in 5 seconds")
-        time.sleep(5)
+        self.info_browser.setText("congratulations! this window will close")
+        # time.sleep(5)
         self.close()
 
     def show_meaning(self):
@@ -86,16 +91,16 @@ class LearnWindow(QWidget, Ui_Learn):
             self.curr_dict["number"] = self.curr_dict["tmp"].pop(0)
             self.counter = 100 * self.curr_dict["list"] + 10 * self.curr_dict["unit"] + self.curr_dict["number"]
 
-            self.curr_dict["word"] = self.config["words"].loc[self.counter, "word"]
+            self.curr_dict["word"] = self.curr_dict["words"].loc[self.counter, "word"]
             self.curr_dict["meaning"] = "\n".join(["%d. %s" % (i + 1, j) for i, j in
                                                    enumerate(
-                                                       self.config["words"].loc[self.counter, "meaning"].split(";"))])
-            self.curr_dict["star"] = self.config["words"].loc[self.counter, "star"]
+                                                       self.curr_dict["words"].loc[self.counter, "meaning"].split(";"))])
+            self.curr_dict["star"] = self.curr_dict["words"].loc[self.counter, "star"]
             if self.meaning_flag:
                 self.meaning_flag = False
             self.refresh()
 
-            self.config["left"] = self.config["words"].shape[0] \
+            self.config["left"] = self.curr_dict["words"].shape[0] \
                                   - self.curr_dict["unit"] * 10 \
                                   - self.curr_dict["list"] * 100 \
                                   + len(self.curr_dict["tmp"]) - 10
@@ -113,7 +118,8 @@ class LearnWindow(QWidget, Ui_Learn):
 
     def star_word(self):
         self.curr_dict["star"] = not self.curr_dict["star"]
-        self.config["words"].loc[self.counter, "star"] = self.curr_dict["star"]
+        self.curr_dict["words"].loc[self.counter, "star"] = self.curr_dict["star"]
+        self.config["words"].loc[self.config["words"].word == self.curr_dict["word"], "star"] = self.curr_dict["star"]
         self.refresh()
 
     def closeEvent(self, event):

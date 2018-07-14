@@ -129,6 +129,7 @@ class Ui_Main_window(object):
         Main_window.setWindowTitle(_translate("Main_window", "MainWindow"))
         self.label.setText(_translate("Main_window", "Choose Config"))
         self.pushButton.setText(_translate("Main_window", "Load"))
+        self.pushButton.setShortcut(_translate("Main_window", "L"))
         self.pushButton_3.setText(_translate("Main_window", "Default"))
         self.label_2.setText(_translate("Main_window", "Start from List: "))
         self.label_3.setText(_translate("Main_window", "Unit: "))
