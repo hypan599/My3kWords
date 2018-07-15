@@ -22,6 +22,7 @@ class MainWindow(QMainWindow, Ui_hani3K):
         self.show_meaning_flag = False
         self.number_left = 0
         self.learning = False
+        self.book_info.setText("type in a book or use default")
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Message', 'You sure to quit?\nChanges will be lost.',
